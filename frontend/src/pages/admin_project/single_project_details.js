@@ -97,7 +97,7 @@ function Single_project_details() {
     if (isChecked === true || count !== 0) {
       console.log("id>>> checked", id);
       console.log("selectedId>>", selectedDev);
-      const unique_selectedDev = new Set(selectedDev);
+      const unique_selectedDev = new Set(viewProjectData);
       console.log("unique_selectedDev ", unique_selectedDev);
       // console.log("...selectedId>>", ...selectedDev);
 
