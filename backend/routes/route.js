@@ -12,7 +12,8 @@ const admin_dashboard = require("../controllers/admin/admin_dashboard_controller
 const {
   list_of_project,
   create_project,
-  single_project_by_id,
+  adding_developer_in_project,
+  view_developer_in_project,
 } = require("../controllers/admin/admin_project_controller/admin_project");
 const {
   create_developer,
@@ -25,7 +26,8 @@ router.get("/verifiedsignin", verified_signin);
 router.get("/dashboard", admin_dashboard);
 router.post("/createproject", create_project);
 router.get("/listofproject", list_of_project);
-router.get("/listofproject/:id", single_project_by_id);
+router.post("/listofproject/:id", adding_developer_in_project);
+router.get("/listofproject/:id", view_developer_in_project);
 router.post("/createdeveloper", create_developer);
 router.get("/listofdeveloper", list_of_developer);
 
