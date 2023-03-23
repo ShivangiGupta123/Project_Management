@@ -30,23 +30,46 @@ const adding_developer_in_project = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const req_body_developer = req.body.developer;
+    // const req_body_developer = req.body.developer;
 
     const project_details = await project_schema.findById(id);
 
     console.log("project_details", project_details);
-    // console.log("project_details.developer", project_details.developer);
-    // console.log("...project_details.developer", ...project_details.developer);
 
-    // console.log("req_body_developer", req_body_developer);
-    console.log("...req_body_developer", ...req_body_developer);
+    console.log("req.body shivi", req.body);
+    // console.log("...req.body", ...req.body);
+    // console.log(" project.details.developer", project_details.developer);
 
-    await project_details.developer.push(...req_body_developer);
+    // Array.prototype.push.apply(req.body, project_details.developer);
+    //merge selected data and database data
 
-    // console.log("updated project.developer", project_details.developer);
+    // console.log("req.body", req.body);
+    // const jsonObject = req.body.map(JSON.stringify);
+    // console.log("jsonObject >>", jsonObject);
+    const merge = req.body.concat(project_details.developer);
+    console.log("merge", merge);
+    const jsonObject = merge.map(JSON.stringify);
+    console.log("jsonObject >>", jsonObject);
 
-    await project_schema.findByIdAndUpdate(id, project_details);
-    console.log("updated project_details", project_details);
+    const unique_data = Array.from(new Set(jsonObject)).map(JSON.parse);
+    // const data = new Set(jsonObject);
+    // console.log("data", data);
+
+    console.log("unique_data", unique_data);
+
+    console.log(
+      "project_details.developer.length",
+      project_details.developer.length
+    );
+
+    project_details.developer.splice(0, project_details.developer.length);
+
+    await project_details.developer.push(...unique_data);
+
+    console.log("updated project.developer", project_details.developer);
+    await project_details.save();
+
+    // await project_schema.findByIdAndUpdate(id, developer);
 
     res.status(200).json(project_details);
   } catch (error) {

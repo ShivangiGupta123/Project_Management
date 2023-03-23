@@ -10,6 +10,8 @@ function Single_project_details() {
   const [viewProjectData, setViewProjectData] = useState([]);
   const [developerData, setDeveloperData] = useState([]);
   const [selectedDev, setSelectedDev] = useState([]);
+  // const [unique, setUnique] = useState([]);
+  // const [result, setResult] = useState([]);
   const { id } = useParams();
   console.log("id", id);
 
@@ -63,6 +65,19 @@ function Single_project_details() {
       setSelectedDev((p) => (p = [...p, { developer_id: dev_id }]));
       setIsChecked(true);
       setCount(count + 1);
+      // const result = viewProjectData.map((element) => {
+      //   return { developer_id: element.Developer_Details._id };
+      // });
+      // console.log("result >>", result);
+      // console.log("...result >>", ...result);
+
+      // Array.prototype.push.apply(result, selectedDev); //merge selected and database data
+      // console.log("fdvjhwevdj", result);
+      // const jsonObject = result.map(JSON.stringify);
+      // console.log("jsonObject >>", jsonObject);
+      // setUnique(Array.from(new Set(jsonObject)).map(JSON.parse));
+
+      // setUnique([new Set([...result], [...selectedDev])]);
 
       console.log("selectedDev%%%", selectedDev);
 
@@ -75,7 +90,7 @@ function Single_project_details() {
       console.log("dev_id>>", dev_id);
 
       let index = selectedDev.findIndex(
-        (element) => element.developer_id == dev_id
+        (element) => element.developer_id == { developer_id: dev_id }
       ); //ticket and then untick for that basis using this logics
       console.log("index", index);
 
@@ -97,14 +112,17 @@ function Single_project_details() {
     if (isChecked === true || count !== 0) {
       console.log("id>>> checked", id);
       console.log("selectedId>>", selectedDev);
-      const unique_selectedDev = new Set(viewProjectData);
-      console.log("unique_selectedDev ", unique_selectedDev);
-      // console.log("...selectedId>>", ...selectedDev);
+      console.log("viewProjectData", viewProjectData);
 
+      // console.log("unique ##", unique);
+
+      // const db = [...unique].map((element) => {
+      //   console.log("element", element);
+      //   return { developer_id: element };
+      // });
+      // console.log("db", db);
       axios
-        .post(`http://localhost:3518/listofproject/${id}`, {
-          developer: selectedDev,
-        })
+        .post(`http://localhost:3518/listofproject/${id}`, selectedDev)
         .then((res) => {
           setProjectData(res.data);
           console.log("res.data @@@", res.data);
@@ -116,6 +134,7 @@ function Single_project_details() {
       alert("please fill");
     }
   };
+  // console.log("unique ##", unique);
 
   return (
     <div style={{ border: "3px solid", padding: 20, margin: 20 }}>
